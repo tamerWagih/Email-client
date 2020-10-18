@@ -10,7 +10,7 @@ interface UsernameAvailableResponse {
 interface SignupCredentials {
   username: string;
   password: string;
-  passwordConfiguration: string;
+  passwordConfirmation: string;
 }
 
 interface SignupResponse {
@@ -22,59 +22,61 @@ interface SignedinResponse {
   username: string;
 }
 
-interface SinginCredentials {
+interface SigninCredentials {
   username: string;
   password: string;
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  rootUrl = 'https://api.angular-email.com/';
-  signedIn$ = new BehaviorSubject(null);
+  rootUrl = 'https://api.angular-email.com';
+  signedin$ = new BehaviorSubject(null);
 
   constructor(private http: HttpClient) {}
 
   usernameAvailable(username: string) {
     return this.http.post<UsernameAvailableResponse>(
-      this.rootUrl + 'auth/username',
+      `${this.rootUrl}/auth/username`,
       {
-        username,
+        username
       }
     );
   }
 
-  signUp(credentials: SignupCredentials) {
+  signup(credentials: SignupCredentials) {
     return this.http
-      .post<SignupResponse>(this.rootUrl + 'auth/signup', credentials)
+      .post<SignupResponse>(`${this.rootUrl}/auth/signup`, credentials)
       .pipe(
         tap(() => {
-          this.signedIn$.next(true);
+          this.signedin$.next(true);
         })
       );
   }
 
   checkAuth() {
-    return this.http.get<SignedinResponse>(`${this.rootUrl}auth/signedin`).pipe(
-      tap(({ authenticated }) => {
-        this.signedIn$.next(authenticated);
-      })
-    );
+    return this.http
+      .get<SignedinResponse>(`${this.rootUrl}/auth/signedin`)
+      .pipe(
+        tap(({ authenticated }) => {
+          this.signedin$.next(authenticated);
+        })
+      );
   }
 
   signout() {
-    return this.http.post(`${this.rootUrl}auth/signout`, {}).pipe(
+    return this.http.post(`${this.rootUrl}/auth/signout`, {}).pipe(
       tap(() => {
-        this.signedIn$.next(false);
+        this.signedin$.next(false);
       })
     );
   }
 
-  signedin(credentials: SinginCredentials) {
-    return this.http.post(`${this.rootUrl}auth/signin`, credentials).pipe(
+  signin(credentials: SigninCredentials) {
+    return this.http.post(`${this.rootUrl}/auth/signin`, credentials).pipe(
       tap(() => {
-        this.signedIn$.next(true);
+        this.signedin$.next(true);
       })
     );
   }

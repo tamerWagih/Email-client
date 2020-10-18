@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
   HttpEvent,
-  HttpHandler,
   HttpInterceptor,
+  HttpHandler,
   HttpRequest,
   HttpEventType,
+  HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
@@ -15,9 +16,11 @@ export class AuthHttpInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    // Modify or log the outgoing request
     const modifiedReq = req.clone({
-      withCredentials: true,
+      withCredentials: true
     });
+
     return next.handle(modifiedReq);
   }
 }

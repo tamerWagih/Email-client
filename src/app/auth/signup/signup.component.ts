@@ -8,7 +8,7 @@ import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css'],
+  styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
   authForm = new FormGroup(
@@ -19,24 +19,22 @@ export class SignupComponent implements OnInit {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(20),
-          Validators.pattern(/^[a-z0-9]+$/),
+          Validators.pattern(/^[a-z0-9]+$/)
         ],
         [this.uniqueUsername.validate]
       ),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(4),
-        Validators.maxLength(20),
+        Validators.maxLength(20)
       ]),
       passwordConfirmation: new FormControl('', [
         Validators.required,
         Validators.minLength(4),
-        Validators.maxLength(20),
-      ]),
+        Validators.maxLength(20)
+      ])
     },
-    {
-      validators: [this.matchPassword.validate],
-    }
+    { validators: [this.matchPassword.validate] }
   );
 
   constructor(
@@ -46,23 +44,24 @@ export class SignupComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {}
 
   onSubmit() {
     if (this.authForm.invalid) {
       return;
     }
-    this.authService.signUp(this.authForm.value).subscribe({
-      next: (response) => {
+
+    this.authService.signup(this.authForm.value).subscribe({
+      next: response => {
         this.router.navigateByUrl('/inbox');
       },
-      error: (err) => {
+      error: err => {
         if (!err.status) {
           this.authForm.setErrors({ noConnection: true });
         } else {
           this.authForm.setErrors({ unknownError: true });
         }
-      },
+      }
     });
   }
 }

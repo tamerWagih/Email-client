@@ -10,6 +10,6 @@ import { SignoutComponent } from './signout/signout.component';
 
 @NgModule({
   declarations: [SigninComponent, SignupComponent, SignoutComponent],
-  imports: [CommonModule, AuthRoutingModule, ReactiveFormsModule, SharedModule],
+  imports: [CommonModule, AuthRoutingModule, ReactiveFormsModule, SharedModule]
 })
 export class AuthModule {}

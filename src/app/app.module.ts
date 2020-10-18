@@ -11,8 +11,8 @@ import { AuthModule } from './auth/auth.module';
   declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule, AuthModule, HttpClientModule],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
